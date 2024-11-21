@@ -1,0 +1,38 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Generator</title>
+    <style>
+        /* 기본 스타일링 */
+        body { padding: 20px; }
+        #prompt { width: 100%; height: 100px; }
+    </style>
+</head>
+<body>
+    <h1>Text Generator</h1>
+    <!-- 텍스트 입력 영역 -->
+    <textarea id="prompt"></textarea>
+    <!-- 생성 버튼 -->
+    <button onclick="generate()">Generate</button>
+    <!-- 결과 표시 영역 -->
+    <div id="result"></div>
+
+    <script>
+        // 텍스트 생성 함수
+        async function generate() {
+            // API 호출
+            const response = await fetch('/generate', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    prompt: document.getElementById('prompt').value
+                })
+            });
+            // 응답 처리 및 결과 표시
+            const data = await response.json();
+            document.getElementById('result').textContent = data.text;
+        }
+    </script>
+</body>
+</html>
