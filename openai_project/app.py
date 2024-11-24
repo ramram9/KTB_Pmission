@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify, render_template
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+from datetime import datetime
+
+history = []
 
 load_dotenv(override=True)  # 환경변수 로드
 app = Flask(__name__) #웹 서버 애플리케이션 생성, 기본틀을 만드는 과정
@@ -40,12 +43,22 @@ def generate_text():
             }
         ]
     )
+    result = response.choices[0].message.content
 
+    history.append({
+        'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        'prompt': prompt,
+        'response': result
+    })
     # API 응답에서 생성된 텍스트 추출하여 JSON 형태로 반환
     return jsonify({
-        "text": response.choices[0].message.content
+        "text": result
     })
 
+#히스토리 조회 엔드포인트
+@app.route('/history', methods=['GET'])
+def get_history():
+    return jsonify(history)
 
 # 메인 프로그램으로 실행될 때만 서버 시작
 if __name__ == '__main__':
