@@ -65,4 +65,6 @@ API 키 보안
 텍스트 생성
 채팅 인터페이스
 대화 기록 저장
+
+
 <img width="912" alt="image" src="https://github.com/user-attachments/assets/b5c14b44-5b65-4e34-9b7d-b7172a0554b0">
